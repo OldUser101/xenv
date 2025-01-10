@@ -1,10 +1,11 @@
 @echo off
+setlocal enabledelayedexpansion
 
 REM xenv - A lightweight, cross-platform tool for managing environment configurations
 REM Version 0.0.1
 REM Copyright (c) 2025 Nathan Gill, under the GNU GPL v3. See LICENSE for details.
 
-
+REM Windows Batch Edition
 
 
 REM Set xenv version
@@ -90,6 +91,14 @@ echo:
 :helpAndExit_exit
 
 exit /b
+
+
+
+REM --------------------------------------------------------
+REM configureNew - Configure a new environment
+REM --------------------------------------------------------
+:configureNew
+
 
 
 
