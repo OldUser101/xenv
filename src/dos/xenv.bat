@@ -10,7 +10,7 @@ REM DOS Edition
 
 
 REM Set xenv version
-set "XENV_VERSION=0.0.1"
+set XENV_VERSION=0.0.1
 
 REM Goto the main entry-point
 goto :main
@@ -19,52 +19,34 @@ goto :main
 
 
 REM --------------------------------------------------------
-REM parseArgs - Parse command line arguments
+REM parseArg - Parse command line arguments
 REM --------------------------------------------------------
-:parseArgs
+:parseArg
 
-set "action="
-set "envName="
+set action=
+set envName=
 
-REM Set the action variable based on arg 1
-:parseArgs_setAction
+if "%1"=="config" set action=config
+if "%1"=="load" set action=load
+if "%1"=="unload" set action=unload
+if "%1"=="delete" set action=delete
 
-if "%~1"=="config" (
-  set "action=config"
-) else if "%~1"=="load" (
-  set "action=load"
-) else if "%~1"=="unload" (
-  set "action=unload"
-) else if "%~1"=="delete" (
-  set "action=delete"
-)
+if not "%2"=="" set envName=%2
 
-REM Set the target config based on arg 1
-:parseArgs_setEnv
-
-if not "%~2"=="" (
-  set "envName=%~2"
-)
-
-goto :parseArgs_exit
+goto :_arseArg
 
 
 
 
 REM --------------------------------------------------------
-REM basicCheckArgs - Simple validation of arguments
+REM checkArg - Simple validation of arguments
 REM --------------------------------------------------------
-:basicCheckArgs
+:checkArg
 
-if "%action%"=="" (
-  goto helpAndExit
-)
+if "%action%"=="" goto help
+if "%envName%"=="" goto help
 
-if "%envName%"=="" (
-  goto helpAndExit
-)
-
-goto :basicCheckArgs_exit
+goto :_heckArg
 
 
 
@@ -72,7 +54,7 @@ goto :basicCheckArgs_exit
 REM --------------------------------------------------------
 REM helpAndExit - Display help text, then quit
 REM --------------------------------------------------------
-:helpAndExit
+:help
 
 echo:
 echo xenv
@@ -80,18 +62,18 @@ echo A lightweight, cross-platform tool for managing environment configurations.
 echo Version %XENV_VERSION%
 echo Copyright (c) 2025 Nathan Gill, under the GNU GPL v3. See LICENSE for details.
 echo:
-echo usage: xenv ^<command^> ^<environment name^>
+echo usage: xenv [command] [environment name]
 echo:
 echo Supported commands:
-echo     config ^<new environment name^> - Configure a new environment
-echo     load ^<environment name^>       - Loads the named environment
-echo     unload ^<environment name^>     - Unload a previously loaded environment
-echo     delete ^<environment name^>     - Delete an environment configuration
+echo     config [new environment name] - Configure a new environment
+echo     load [environment name]       - Loads the named environment
+echo     unload [environment name]     - Unload a previously loaded environment
+echo     delete [environment name]     - Delete an environment configuration
 echo:
 
-:helpAndExit_exit
+:_elp
 
-exit /b
+goto :eof
 
 
 
@@ -109,10 +91,10 @@ REM main - Main script entry-point
 REM --------------------------------------------------------
 :main
 
-goto :parseArgs
-:parseArgs_exit
+goto :parseArg
+:_arseArg
 
-goto :basicCheckArgs
-:basicCheckArgs_exit
+goto :checkArg
+:_heckArg
 
 :eof

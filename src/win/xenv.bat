@@ -90,7 +90,7 @@ echo:
 
 :helpAndExit_exit
 
-exit /b
+goto :eof
 
 
 
